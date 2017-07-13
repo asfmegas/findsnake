@@ -10,32 +10,53 @@ ano: 07/2017
 """
 Descrição:
 
- 0  1  2  3  4  5   6  7  8  9
-10 11 12 13 14 15 |16 17 18 19
-20 21 22 23 24 25 |26 27 28 29
-30 31 32 33 34 35 |36 37 38 39
-40 41 42 43 44 45 |46 47 48 49
-50 51 52 53 54 55 |56 57 58 59
-______________________________+-> limite vertical
-60 61 62 63 64 65 |66 67 68 69
-70 71 72 73 74 75 |76 77 78 79
-80 81 82 83 84 85 |86 87 88 89
-90 91 92 93 94 95 |96 97 98 99
-				  +-> limite horizontal
+  1   2   3   4   5   6  | 7   8   9  10 
+ 11  12  13  14  15  16  |17  18  19  20 
+ 21  22  23  24  25  26  |27  28  29  30 
+ 31  32  33  34  35  36  |37  38  39  40 
+ 41  42  43  44  45  46  |47  48  49  50 
+ 51  52  53  54  55  56  |57  58  59  60 
+ ------------------------+---------------> limite vertical
+ 61  62  63  64  65  66  |67  68  69  70 
+ 71  72  73  74  75  76  |77  78  79  80 
+ 81  82  83  84  85  86  |87  88  89  90 
+ 91  92  93  94  95  96  |97  98  99 100 
+                         +--> limite horizontal
 
 """
+
+
 entrada = ''
 campo = [i for i in range(1, 101)]
 cobra = []
+listaCobras = []
+tentativas = []
+posiscoes = []
+acerto = False
+voltas = 0
+acertos, erros = 0, 0
 
 def exibirCampo(x):
+	global acerto, voltas, acertos, erros
 	print('#' * 40)
 	count = 0
+
 	for item in campo:
 		if x == item:
-			campo.insert(item, 0)
-			campo.remove(item)
-			print('{0:3d}'.format(0), end=' ')
+			if x in posiscoes:
+				campo.insert(item, 1)
+				campo.remove(item)
+				print('{0:3d}'.format(1), end=' ')
+				acerto = True
+				acertos += 1
+				if acertos == 5:
+					print('\n\tParabéns!! Você venceu!!!\n')
+			else:
+				campo.insert(item, 0)
+				campo.remove(item)
+				print('{0:3d}'.format(0), end=' ')
+				acerto = False
+				erros += 1
 		else:
 			print('{0:3d}'.format(item), end=' ')
 		count += 1
@@ -43,54 +64,67 @@ def exibirCampo(x):
 			print()
 			count = 0
 	print('#' * 40)
+	if voltas > 0:
+		if acerto: 
+			print('\n;-) Você acertou!!!', end=' ')
+		elif not acerto:
+			print('\n:-( Você errou!', end=' ')
+	voltas = 1
 
 def criarCobra():
 	orientacao = random.randint(1, 2)
-	print(orientacao)
 	while True:
 		inicio = random.randint(1, 101)
-		if orientacao == 1:
-			if (inicio < 6) or (inicio > 9 and inicio < 16) or \
-			(inicio > 19 and inicio < 26) or(inicio > 29 and inicio < 36) or \
-			(inicio > 39 and inicio < 46) or(inicio > 49 and inicio < 56) or \
-			(inicio > 59 and inicio < 66) or(inicio > 69 and inicio < 76) or \
-			(inicio > 79 and inicio < 86) or(inicio > 89 and inicio < 96):
-				cobra = [i for i in range(inicio, inicio + 5)]
-				break
-		else:
-			if inicio >= 1 and inicio < 60:
-				cobra = [i for i in range(inicio, inicio + 50, 10)]
-				break
+		if inicio not in posiscoes:
+			if orientacao == 1:
+				if (inicio < 7) or \
+					(inicio > 10 and inicio < 17) or \
+					(inicio > 20 and inicio < 27) or \
+					(inicio > 29 and inicio < 37) or \
+					(inicio > 40 and inicio < 47) or \
+					(inicio > 50 and inicio < 57) or \
+					(inicio > 60 and inicio < 67) or \
+					(inicio > 70 and inicio < 77) or \
+					(inicio > 80 and inicio < 87) or \
+					(inicio > 90 and inicio < 97):
+					cobra = [i for i in range(inicio, inicio + 5)]
+					break
+			else:
+				if inicio >= 1 and inicio < 60:
+					cobra = [i for i in range(inicio, inicio + 50, 10)]
+					break
 	return cobra
 
-	# print(cobra)
 
 def grupoCobras():
-	lista = []
 	for i in range(0, 5):
-		lista.append(criarCobra())
-	print(lista)
+		cobra = criarCobra()
+		listaCobras.append(cobra)
+		for z in cobra:
+			posiscoes.append(z)
 
-exibirCampo(' ')
-# criarCobra()
+	print(listaCobras)
+	print(posiscoes)
+
+
 grupoCobras()
+exibirCampo(' ')
+
 
 while True:
 
-	while True:
-		entrada = input('Digite um número: ').lower()
-		if entrada in str(campo) and entrada != '0':
-			exibirCampo(int(entrada))
-			break
-		elif entrada == 's':
-			break
+	if erros <= 25:
+		while True:
+			entrada = input('Digite um número: ').lower()
+			if entrada in str(campo) and entrada != '0' and entrada not in tentativas:
+				exibirCampo(int(entrada))
+				tentativas.append(entrada)
+				print('Tentativas: {0} Acertos: {1} Erros: {2}'.format(len(tentativas), acertos, erros))
+				break
+			elif entrada == 's':
+				break
+	else:
+		print('Suas tentativas acabaram!')
 
 	if entrada == 's':
 		break
-
-
-
-
-
-
-
