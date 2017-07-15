@@ -4,6 +4,7 @@ __author__ = 'asfmgas.github.io'
 Objetivo do jogo é descobrir as combras escondidas no campo
 Por: Alexsandro Façanha
 ano: 07/2017
+
 """
 
 import snake, camp, player
@@ -12,25 +13,26 @@ import time
 import pdb
 
 count = 0
-
+list_snakes = []
+list_snakes_hits = [[],[],[],[],[]]
 
 def main():
 	global count
 	print(FRAME[0])
-	# time.sleep(TIME)
+	time.sleep(TIME)
 
 	my_camp = camp.Camp()
 
 	while True:
 		new_snake = snake.Snake()
 		i = new_snake.get_orientation()
-		if my_camp.add_snake_camp(new_snake.get_snake(my_camp.set_position(i))):
+		s = new_snake.get_snake(my_camp.set_position(i))
+		if my_camp.add_snake_camp(s):
+			list_snakes.append(s)
 			count += 1
 		if count == 5:
 			break
 
-	# my_camp.get_snakes()
-	# print(my_camp.get_total_positions())
 
 	player_one = player.Player()
 	my_camp.create_camp(0)
@@ -42,23 +44,37 @@ def main():
 			to_return = player_one.hit()
 			if to_return:
 				my_camp.create_camp(to_return)
-				print(' Você possui {} possíveis erros.'.format(my_camp.get_total_positions()))
 				player_one.errors = my_camp.get_errors()
 				player_one.get_info()
 
-				if player_one.get_hits == 25:
+				hits_player(to_return)
+
+
+				if player_one.get_hits() == my_camp.get_total_positions():
 					print(FRAME[2])
+					time.sleep(2)
 					print('As posições das cobras eram essas:')
-					my_camp.get_snakes()
+					for i in range(len(list_snakes)):
+						print('Cobra {0} : {1} -> Acertos: {2}\n'.format(i, list_snakes[i], list_snakes_hits[i]))
 					break
 
 			else:
 				break
 		else:
 			print(FRAME[1])
+			time.sleep(2)
 			print('As posições das cobras eram essas:')
-			my_camp.get_snakes()
+			for i in range(len(list_snakes)):
+				print('Cobra {0} : {1} -> Acertos: {2}\n'.format(i, list_snakes[i], list_snakes_hits[i]))
 			break
+
+
+def hits_player(value):
+	for i in range(len(list_snakes)):
+		for item in list_snakes[i]:
+			if value in list_snakes[i]:
+				list_snakes_hits[i].append(value)
+				break
 
 
 if __name__ == '__main__':

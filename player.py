@@ -44,4 +44,5 @@ class Player(object):
 		print('-' * 45)
 
 	def get_hits(self):
+		self.hits = self.shoots - self.errors
 		return self.hits

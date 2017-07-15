@@ -23,7 +23,8 @@ FRAME = [
 
 \tEm um campo com 100 posições existem 5 cobras escondidas.
 \tCada cobra oculpa 5 posições. Cabe a você encontrar essas
-\tposições antes que suas tentativas terminem.
+\tposições antes que suas tentativas terminem. Você terá 20
+\ttentativas para acertar todos os alvos.
 
 
 \tobs.: Você pode sair a qualquer momento, basta digitar "s"
