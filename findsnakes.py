@@ -8,7 +8,6 @@ ano: 07/2017
 """
 
 """
-Descrição:
 
   1   2   3   4   5   6  | 7   8   9  10 
  11  12  13  14  15  16  |17  18  19  20 
@@ -36,6 +35,11 @@ acerto = False
 voltas = 0
 acertos, erros = 0, 0
 
+
+def trocarCaractere(item, x):
+	campo.insert(item, x)
+	campo.remove(item)
+
 def exibirCampo(x):
 	global acerto, voltas, acertos, erros
 	print('#' * 40)
@@ -44,16 +48,14 @@ def exibirCampo(x):
 	for item in campo:
 		if x == item:
 			if x in posiscoes:
-				campo.insert(item, 1)
-				campo.remove(item)
+				trocarCaractere(item, 1)
 				print('{0:3d}'.format(1), end=' ')
 				acerto = True
 				acertos += 1
-				if acertos == 5:
+				if acertos == contarPosicoes():
 					print('\n\tParabéns!! Você venceu!!!\n')
 			else:
-				campo.insert(item, 0)
-				campo.remove(item)
+				trocarCaractere(item, 0)
 				print('{0:3d}'.format(0), end=' ')
 				acerto = False
 				erros += 1
@@ -71,8 +73,15 @@ def exibirCampo(x):
 			print('\n:-( Você errou!', end=' ')
 	voltas = 1
 
+def contarPosicoes():
+	lista = []
+	for i in posiscoes:
+		if i not in lista:
+			lista.append(i)
+	return len(lista)
+
 def criarCobra():
-	orientacao = random.randint(1, 2)
+	orientacao = random.randint(1, 2) # 1 horizontal ou 2 vertical
 	while True:
 		inicio = random.randint(1, 101)
 		if inicio not in posiscoes:
@@ -103,28 +112,32 @@ def grupoCobras():
 		for z in cobra:
 			posiscoes.append(z)
 
-	print(listaCobras)
-	print(posiscoes)
-
+	# print(listaCobras)
+	# print(posiscoes)
 
 grupoCobras()
+print('Você tem {} alvos com no máximo 25 possíveis erros. Boa sorte!!!'.format(contarPosicoes()))
 exibirCampo(' ')
 
 
 while True:
 
-	if erros <= 25:
+	if erros < 20:
 		while True:
 			entrada = input('Digite um número: ').lower()
 			if entrada in str(campo) and entrada != '0' and entrada not in tentativas:
-				exibirCampo(int(entrada))
-				tentativas.append(entrada)
-				print('Tentativas: {0} Acertos: {1} Erros: {2}'.format(len(tentativas), acertos, erros))
-				break
+				try:
+					exibirCampo(int(entrada))
+					tentativas.append(entrada)
+					print('Tentativas: {0} | Acertos: {1} | Erros: {2} | Alvos: {3}\n'.format(len(tentativas), acertos, erros, contarPosicoes()))
+					break
+				except:
+					print()
 			elif entrada == 's':
 				break
 	else:
-		print('Suas tentativas acabaram!')
+		print('Gamer Over\nSuas tentativas acabaram!\n\n')
+		break
 
 	if entrada == 's':
 		break
