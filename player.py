@@ -9,7 +9,6 @@ class Player(object):
 		self.shoots = 0
 		self.attemps = []
 		self.errors = 0
-		# self.life = ALIVE
 
 	def hit(self):
 		while True:
@@ -39,9 +38,8 @@ class Player(object):
 
 	def get_info(self):
 		self.hits = self.shoots - self.errors
-		print('-' * 45)
 		print('  Shoots[ {0} ]  Hits[ {1} ]  Errors[ {2} ]'.format(self.shoots, self.hits, self.errors))
-		print('-' * 45)
+		print('-' * 70)
 
 	def get_hits(self):
 		self.hits = self.shoots - self.errors

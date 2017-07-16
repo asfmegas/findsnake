@@ -1,5 +1,9 @@
+__author__ = 'asfmgas.github.io'
+
 import pdb
 import random
+import mydebugging
+from mydebugging import *
 
 """
 Objetivo do jogo é eliminar as combras escondidas
@@ -24,7 +28,6 @@ ano: 07/2017
 
 """
 
-
 entrada = ''
 campo = [i for i in range(1, 101)]
 cobra = []
@@ -36,17 +39,24 @@ voltas = 0
 acertos, erros = 0, 0
 
 
+log = mydebugging.MyDebug()
+log.getLogDebug()
+log.desabilitar()
+
+
 def trocarCaractere(item, x):
 	campo.insert(item, x)
 	campo.remove(item)
 
 def exibirCampo(x):
+	log.inicioDebug('exibirCampo')
 	global acerto, voltas, acertos, erros
 	print('#' * 40)
 	count = 0
 
 	for item in campo:
 		if x == item:
+			log.comparador(x, item)
 			if x in posiscoes:
 				trocarCaractere(item, 1)
 				print('{0:3d}'.format(1), end=' ')
@@ -59,12 +69,17 @@ def exibirCampo(x):
 				print('{0:3d}'.format(0), end=' ')
 				acerto = False
 				erros += 1
+
+				if x == 1:
+					x = 101
 		else:
 			print('{0:3d}'.format(item), end=' ')
+
 		count += 1
 		if count == 10:
 			print()
 			count = 0
+
 	print('#' * 40)
 	if voltas > 0:
 		if acerto: 
@@ -72,6 +87,7 @@ def exibirCampo(x):
 		elif not acerto:
 			print('\n:-( Você errou!', end=' ')
 	voltas = 1
+	log.fimDebug('exibirCampo')
 
 def contarPosicoes():
 	lista = []
