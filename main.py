@@ -8,10 +8,17 @@ ano: 07/2017
 """
 
 import snake, camp, player
-from constants import *
-import time
-import pdb
 import scores, database
+from constants import *
+
+import time
+
+import pdb
+import mydebugging
+from mydebugging import *
+
+log = mydebugging.MyDebug()
+log.getLogDebug()
 
 db = database.Database()
 db.createTable()
@@ -41,7 +48,7 @@ print('-' * WIDTH)
 time.sleep(TIME)
 
 list_snakes = []
-list_snakes_hits = [[],[],[],[],[]]
+list_snakes_hits = [[] for i in range(NORMAL)]
 
 def main():
 	global count, ID
@@ -60,7 +67,7 @@ def main():
 		if my_camp.add_snake_camp(s):
 			list_snakes.append(s)
 			count += 1
-		if count == 5:
+		if count == NORMAL:
 			break
 	count = 0
 
@@ -95,14 +102,15 @@ def main():
 					print(FRAME[2])
 					time.sleep(2)
 					score.winner()
+					print('\tSua pontuação foi [ {} ]\n'.format(score.get_total()))
 
 					# Salvar dados
 					db.saveData(ID, score.get_total(), count, player_one.get_hits(), '10/10/2017')
 					db.closeConnection()
 
-					print('As posições das cobras eram essas:')
+					print('As posições das cobras eram essas:\n')
 					for i in range(len(list_snakes)):
-						print('Cobra {0} : {1} -> Acertos: {2}\n'.format(i, list_snakes[i], list_snakes_hits[i]))
+						print('Cobra {0} : {1} -> Acertos: {2}\n'.format(i + 1, list_snakes[i], list_snakes_hits[i]))
 					break
 
 			else:
@@ -111,19 +119,21 @@ def main():
 			print(FRAME[1])
 			time.sleep(2)
 			score.loser()
+			print('\tSua pontuação foi [ {} ]\n'.format(score.get_total()))
 
 			# Salvar dados
 			db.saveData(ID, score.get_total(), count, player_one.get_hits(), '10/10/2017')
 			db.closeConnection()
 
-			print('As posições das cobras eram essas:')
+			print('As posições das cobras eram essas:\n')
 			for i in range(len(list_snakes)):
-				print('Cobra {0} : {1} -> Acertos: {2}\n'.format(i, list_snakes[i], list_snakes_hits[i]))
+				print('Cobra {0} : {1} -> Acertos: {2}\n'.format(i + 1, list_snakes[i], list_snakes_hits[i]))
 			break
 
 
 # Exibir as posições das cobras e dos acertos do jogador
 def hits_player(value):
+	# pdb.set_trace()
 	for i in range(len(list_snakes)):
 		for item in list_snakes[i]:
 			if value in list_snakes[i]:

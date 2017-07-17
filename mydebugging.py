@@ -7,6 +7,8 @@ WARNING = 4
 ERROR = 5
 
 class MyDebug:
+	def __init__(self):
+		pass
 
 	def getLogDebug(self):
 		return logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s - %(message)s')
