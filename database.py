@@ -18,14 +18,14 @@ class Database(object):
 
 	def createTable(self):
 		try:
-			self.cursor.execute("CREATE TABLE IF NOT EXISTS snake (id integer, score_total integer, shoots integer, hits integer, data text)")
+			self.cursor.execute("CREATE TABLE IF NOT EXISTS snake (id int UNIQUE, score_total int, shoots int, hits int, mode int, data varchar(30))")
 		except Exception as erro:
 			print('Erro ao criar tabela:', erro)
 			print('Tipo de erro:', type(erro))
 
-	def saveData(self, ID=1, pontos=0, tentativas=0, acertos=0, data='01/01/1990'):
+	def saveData(self, ID=1, pontos=0, tentativas=0, acertos=0, modo=5, data='01/01/1990'):
 		try:
-			self.cursor.execute("INSERT INTO snake VALUES (?, ?, ?, ?, ?)", (ID, pontos, tentativas, acertos, data,))
+			self.cursor.execute("INSERT INTO snake VALUES (?, ?, ?, ?, ?, ?)", (ID, pontos, tentativas, acertos, modo, data,))
 			self.db.commit()
 		except Exception as erro:
 			print('Erro ao salvar dados:', erro)

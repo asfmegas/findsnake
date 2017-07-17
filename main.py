@@ -12,43 +12,65 @@ import scores, database
 from constants import *
 
 import time
+import datetime
 
+# para debug
 import pdb
-import mydebugging
-from mydebugging import *
-
-log = mydebugging.MyDebug()
-log.getLogDebug()
 
 db = database.Database()
 db.createTable()
 
 count = 0
 ID = 1
+mode = 0
+my_mode = ''
 
 lista = db.getList()
 my_list = []
 
-print('-' * WIDTH)
-print('\t\tR A N K I N G - As 10 melhores partidas\n')
+hoje = datetime.date.fromtimestamp(time.time())
 
 # Adiciona itens do banco de dados na lista e defini um valor para o ID
 for linha in lista:
 	ID += 1
-	my_list.append((linha[1], linha[2], linha[3]))
+	my_list.append((linha[1], linha[2], linha[3], linha[4]))
+
+while True:
+	mode = input('Defina o modo: 1 EASY; 2 NORMAL; 3 HARD: ')
+	if mode in '1 2 3' and mode != ' ':
+		if mode == '1':
+			mode = EASY
+			my_mode = 'easy'
+		elif mode == '3':
+			mode = HARD
+			my_mode = 'hard'
+		else:
+			mode = NORMAL
+			my_mode = 'normal'
+		break
+
+print('-' * WIDTH)
+print('\t\tR A N K I N G - As 10 melhores partidas no modo {}.\n'.format(my_mode))
 
 # Exibe apenas os 10 melhores colocados da lista
 for linha in my_list:
-	count += 1
-	print('\t{0}o. Acertos: {1}, Erros: {2}, Tentativas: {3}, Pontuação: {4}'.format(count, linha[2], linha[1] - linha[2], linha[1], linha[0]))
-	if count == 11:
-		break
+	if linha[3] == mode:
+		count += 1
+		print('  {0}o. Acertos[{1:3d} ]  Erros[{2:3d} ]  Tentativas[{3:3d} ]  Pontuação[ {4:3d} ]'.format(count, \
+																											linha[2], \
+																											linha[1] - linha[2], \
+																											linha[1], \
+																											linha[0]))
+		if count == 11:
+			break
+
 count = 0
 print('-' * WIDTH)
 time.sleep(TIME)
 
+
 list_snakes = []
-list_snakes_hits = [[] for i in range(NORMAL)]
+list_snakes_hits = [[] for i in range(mode)]
 
 def main():
 	global count, ID
@@ -67,7 +89,7 @@ def main():
 		if my_camp.add_snake_camp(s):
 			list_snakes.append(s)
 			count += 1
-		if count == NORMAL:
+		if count == mode:
 			break
 	count = 0
 
@@ -77,7 +99,7 @@ def main():
 	# Rode enquanto os erros do player forem menores que 20 e os acertos menores que 25
 	while True:
 
-		if player_one.get_total_errors() < MIDDLE_MODE:
+		if player_one.get_total_errors() < NORMAL_MODE:
 
 			# player_one.hit() retorna um False ou um número(True). Se False ele sair do while
 			to_return = player_one.hit()
@@ -105,7 +127,7 @@ def main():
 					print('\tSua pontuação foi [ {} ]\n'.format(score.get_total()))
 
 					# Salvar dados
-					db.saveData(ID, score.get_total(), count, player_one.get_hits(), '10/10/2017')
+					db.saveData(ID, score.get_total(), count, player_one.get_hits(), mode, hoje)
 					db.closeConnection()
 
 					print('As posições das cobras eram essas:\n')
@@ -122,7 +144,7 @@ def main():
 			print('\tSua pontuação foi [ {} ]\n'.format(score.get_total()))
 
 			# Salvar dados
-			db.saveData(ID, score.get_total(), count, player_one.get_hits(), '10/10/2017')
+			db.saveData(ID, score.get_total(), count, player_one.get_hits(), mode, hoje)
 			db.closeConnection()
 
 			print('As posições das cobras eram essas:\n')

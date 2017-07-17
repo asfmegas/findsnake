@@ -31,10 +31,13 @@ log.desabilitar()
 
 class Scores(object):
 	def __init__(self):
+		# Pontos dos erros e acertos
 		self.point_hit = 10
 		self.point_error = 1
+		# Agrega valores por sequência de acertos ou erros
 		self.score_hit = 0
 		self.score_error = 0
+		# Valor total dos pontos ganhos
 		self.score_total = 0
 
 	def get_total(self):
@@ -52,12 +55,16 @@ class Scores(object):
 		self.score_error += 1
 		self.score_hit = 0
 
+	# Se a pontuação total - 5 pontos pela for maior que zero será descontado os 5 pontos
+	# Caso contrário, se for menor, a pontuação é zerada
 	def loser(self):
-		if self.score_total < 0:
+		if self.score_total - 5 < 0:
 			self.score_total = 0
 		else:
 			self.score_total -= 5
 
+	# Se a pontuação total + 10 forem maior que 0 será acrescido 10 pontos pela vitória.
+	# Caso contrário, será zerada a pontuação.
 	def winner(self):
 		if self.score_total + 10 < 0:
 			self.score_total = 0

@@ -7,7 +7,7 @@ VERTICAL = 2
 SNAKE_SIZE = 5
 
 EASY_MODE = 25
-MIDDLE_MODE = 20
+NORMAL_MODE = 20
 HARD_MODE = 15
 
 HIT_VALUE = 1
@@ -48,7 +48,6 @@ FRAME = [
 
 		    Gamer Over
 
-
 #################################################
 """,
 """
@@ -57,7 +56,6 @@ FRAME = [
 	Parabéns você encontrou todas as cobras
 
 		      Winner
-
 
 #################################################
 """,

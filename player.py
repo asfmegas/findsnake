@@ -1,9 +1,9 @@
 __author__ = 'asfmgas.github.io'
 
+# para debug
 import pdb
 from constants import *
 
-# Esta classe interagir com o player
 class Player(object):
 	def __init__(self):
 		self.hits = 0
