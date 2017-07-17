@@ -59,4 +59,7 @@ class Scores(object):
 			self.score_total -= 5
 
 	def winner(self):
-		self.score_total += 10
+		if self.score_total + 10 < 0:
+			self.score_total = 0
+		else:
+			self.score_total += 10

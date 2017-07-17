@@ -37,7 +37,7 @@ class Camp(object):
 
 	# Cria o campo
 	def create_camp(self, shoot):
-		print('#' * 75)
+		print('#' * WIDTH)
 		print()
 		count = 0 # contador para quebra de linha
 
@@ -66,7 +66,7 @@ class Camp(object):
 				print()
 				count = 0
 			
-		print('#' * 75)
+		print('#' * WIDTH)
 
 		if self.error == 1:
 			print(FRAME[4])

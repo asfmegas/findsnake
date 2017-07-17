@@ -1,6 +1,7 @@
 __author__ = 'asfmgas.github.io'
 
 import pdb
+from constants import *
 
 # Esta classe interagir com o player
 class Player(object):
@@ -39,7 +40,7 @@ class Player(object):
 	def get_info(self):
 		self.hits = self.shoots - self.errors
 		print('  Shoots[ {0} ]  Hits[ {1} ]  Errors[ {2} ]'.format(self.shoots, self.hits, self.errors))
-		print('-' * 70)
+		print('-' * WIDTH)
 
 	def get_hits(self):
 		self.hits = self.shoots - self.errors

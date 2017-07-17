@@ -16,25 +16,30 @@ import scores, database
 db = database.Database()
 db.createTable()
 
-lista = db.getList()
-ID = 0
-print('-' * 70)
-print('\t\tR A N K I N G - Os 10 melhores\n')
+count = 0
+ID = 1
 
+lista = db.getList()
 my_list = []
+
+print('-' * WIDTH)
+print('\t\tR A N K I N G - As 10 melhores partidas\n')
+
+# Adiciona itens do banco de dados na lista e defini um valor para o ID
 for linha in lista:
+	ID += 1
 	my_list.append((linha[1], linha[2], linha[3]))
 
+# Exibe apenas os 10 melhores colocados da lista
 for linha in my_list:
-	ID += 1
-	print('\t{0}o. Acertos: {1}, Erros: {2}, Tentativas: {3}, Pontuação: {4}'.format(ID, linha[2], linha[1] - linha[2], linha[1], linha[0]))
-	if ID == 11:
+	count += 1
+	print('\t{0}o. Acertos: {1}, Erros: {2}, Tentativas: {3}, Pontuação: {4}'.format(count, linha[2], linha[1] - linha[2], linha[1], linha[0]))
+	if count == 11:
 		break
-
-print('-' * 70)
+count = 0
+print('-' * WIDTH)
 time.sleep(TIME)
 
-count = 0
 list_snakes = []
 list_snakes_hits = [[],[],[],[],[]]
 
@@ -78,7 +83,7 @@ def main():
 				elif my_camp.error == 0:
 					score.guess_error()
 
-				print('-' * 70)
+				print('-' * WIDTH)
 				print('\tPontuação: [ {} ]'.format(score.get_total()), end=' ')
 				player_one.get_info()
 
@@ -88,11 +93,13 @@ def main():
 				# Se o player alcançar 25 acertos ele é declarado vencedor
 				if player_one.get_hits() == my_camp.get_total_positions():
 					print(FRAME[2])
-					score.winner()
-					# Salvar dados
-					db.saveData(ID + 1, score.get_total(), count, player_one.get_hits(), '10/10/2017')
-					db.closeConnection()
 					time.sleep(2)
+					score.winner()
+
+					# Salvar dados
+					db.saveData(ID, score.get_total(), count, player_one.get_hits(), '10/10/2017')
+					db.closeConnection()
+
 					print('As posições das cobras eram essas:')
 					for i in range(len(list_snakes)):
 						print('Cobra {0} : {1} -> Acertos: {2}\n'.format(i, list_snakes[i], list_snakes_hits[i]))
@@ -102,11 +109,13 @@ def main():
 				break
 		else:
 			print(FRAME[1])
-			score.loser()
-			# Salvar dados
-			db.saveData(ID + 1, score.get_total(), count, player_one.get_hits(), '10/10/2017')
-			db.closeConnection()
 			time.sleep(2)
+			score.loser()
+
+			# Salvar dados
+			db.saveData(ID, score.get_total(), count, player_one.get_hits(), '10/10/2017')
+			db.closeConnection()
+
 			print('As posições das cobras eram essas:')
 			for i in range(len(list_snakes)):
 				print('Cobra {0} : {1} -> Acertos: {2}\n'.format(i, list_snakes[i], list_snakes_hits[i]))
