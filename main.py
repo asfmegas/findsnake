@@ -96,10 +96,14 @@ def main():
 	player_one = player.Player()
 	my_camp.create_camp(0)
 
+	if mode == EASY: my_mode = EASY_MODE
+	elif mode == NORMAL: my_mode = NORMAL_MODE
+	elif mode == HARD: my_mode = HARD_MODE
+
 	# Rode enquanto os erros do player forem menores que 20 e os acertos menores que 25
 	while True:
 
-		if player_one.get_total_errors() < NORMAL_MODE:
+		if player_one.get_total_errors() < my_mode:
 
 			# player_one.hit() retorna um False ou um número(True). Se False ele sair do while
 			to_return = player_one.hit()
