@@ -11,8 +11,8 @@ import snake, camp, player
 import scores, database
 from constants import *
 
-import time
-import datetime
+import time, sys
+from datetime import date
 
 # para debug
 import pdb
@@ -25,10 +25,20 @@ ID = 1
 mode = 0
 my_mode = ''
 
+# Para pular as informações iniciais digitar qualquer coisa após o comando
+option = sys.argv
+if len(option) < 2:
+	# Informações para o início do jogo.
+	print(FRAME[0])
+	time.sleep(TIME)
+	print(FRAME[5])
+	time.sleep(TIME)
+
 lista = db.getList()
 my_list = []
 
-hoje = datetime.date.fromtimestamp(time.time())
+now = date.today()
+today = now.strftime("%d/%m/%Y")
 
 # Adiciona itens do banco de dados na lista e defini um valor para o ID
 for linha in lista:
@@ -36,8 +46,8 @@ for linha in lista:
 	my_list.append((linha[1], linha[2], linha[3], linha[4]))
 
 while True:
-	mode = input('Defina o modo: 1 EASY; 2 NORMAL; 3 HARD: ')
-	if mode in '1 2 3' and mode != ' ':
+	mode = input('\tDefina o modo: 1 EASY; 2 NORMAL; 3 HARD: ')
+	if mode in '1 2 3'.split():
 		if mode == '1':
 			mode = EASY
 			my_mode = 'easy'
@@ -48,6 +58,9 @@ while True:
 			mode = NORMAL
 			my_mode = 'normal'
 		break
+	elif mode.lower() == 's':
+		sys.exit()
+
 
 print('-' * WIDTH)
 print('\t\tR A N K I N G - As 10 melhores partidas no modo {}.\n'.format(my_mode))
@@ -75,9 +88,6 @@ list_snakes_hits = [[] for i in range(mode)]
 def main():
 	global count, ID
 
-	# Informações para o início do jogo.
-	# print(FRAME[0])
-	# time.sleep(TIME)
 	score = scores.Scores()
 
 	my_camp = camp.Camp()
@@ -131,7 +141,7 @@ def main():
 					print('\tSua pontuação foi [ {} ]\n'.format(score.get_total()))
 
 					# Salvar dados
-					db.saveData(ID, score.get_total(), count, player_one.get_hits(), mode, hoje)
+					db.saveData(ID, score.get_total(), count, player_one.get_hits(), mode, today)
 					db.closeConnection()
 
 					print('As posições das cobras eram essas:\n')
@@ -148,7 +158,7 @@ def main():
 			print('\tSua pontuação foi [ {} ]\n'.format(score.get_total()))
 
 			# Salvar dados
-			db.saveData(ID, score.get_total(), count, player_one.get_hits(), mode, hoje)
+			db.saveData(ID, score.get_total(), count, player_one.get_hits(), mode, today)
 			db.closeConnection()
 
 			print('As posições das cobras eram essas:\n')

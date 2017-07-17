@@ -27,43 +27,53 @@ HARD = 3
 
 FRAME = [
 """
-####################################################################
+#######################################################################################
 
-\tEncontre as cobras
+	Encontre as cobras
 
-\tEm um campo com 100 posições existem 5 cobras escondidas.
-\tCada cobra oculpa 5 posições. Cabe a você encontrar essas
-\tposições antes que suas tentativas terminem. Você terá 20
-\ttentativas para acertar todos os alvos.
+	O objetivo do jogo é encontrar as "cobras" que estão escondidas e possuem 
+	5 posições podendo ser na horizontal ou na vertical, no "campo" que possui
+	100 posições entre 1 e 100. O acerto corresponde a 1 e o erro corresponde a
+	0. A quantidade de "cobras", assim como os possíveis erros, variam de acordo 
+	com o modo que foi definido.
 
 
-\tobs.: Você pode sair a qualquer momento, basta digitar "s"
+	obs.: Você pode sair a qualquer momento, basta digitar "s"
 
-####################################################################
+#######################################################################################
 """,
 """
-#################################################
+#######################################################################################
 
-	Que pena, suas tentativas acabaram.
+\t\t\tQue pena, suas tentativas acabaram.
 
-		    Gamer Over
+\t\t\t\tGamer Over
 
-#################################################
+#######################################################################################
 """,
 """
-#################################################
+#######################################################################################
 
-	Parabéns você encontrou todas as cobras
+\t\t\tParabéns você encontrou todas as cobras
 
-		      Winner
+\t\t\t\tWinner
 
-#################################################
+#######################################################################################
 """,
 """
 	Você errou :-(
 """,
 """
 	Parabéns! Você acertou!!!
+""",
+"""
+	Sobre os modos do jogo
+
+	No EASY o jogador possui 22 possíveis erros e precisará encontrar 8 "cobras".
+	No NORMAL o jogador possui 20 possível erros e encontrará 5 "cobras".
+	No HARD o jogador terá 15 possíveis erros e encontrará apenas 3 "cobras".
+
+#######################################################################################
 """]
 
 
