@@ -1,6 +1,12 @@
-__author__ = 'asfmgas.github.io'
+__author__ = 'alex.facanha18@gmail.com <asfmegas.github.io>'
 
-import sqlite3
+import sys
+try:
+	import sqlite3
+	sqlite3.version
+except Exception as erro:
+	print('Problema com o sqlite3. Verifique se ele está instalado.')
+	sys.exit()
 
 class Database(object):
 	def __init__(self):

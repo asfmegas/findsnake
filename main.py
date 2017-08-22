@@ -1,4 +1,5 @@
-__author__ = 'asfmgas.github.io'
+__author__ = 'alex.facanha18@gmail.com <asfmegas.github.io>'
+
 
 """
 Objetivo do jogo é descobrir as combras escondidas no campo
@@ -9,6 +10,8 @@ ano: 07/2017
 
 import snake, camp, player
 import scores, database
+import _thread as thread
+import os
 from constants import *
 
 import time, sys
@@ -32,7 +35,9 @@ if len(option) < 2:
 	print(FRAME[0])
 	time.sleep(TIME)
 	print(FRAME[5])
-	time.sleep(TIME)
+
+	print('Pressione "Enter" para continuar...')
+	input()
 
 lista = db.getList()
 my_list = []
@@ -63,7 +68,7 @@ while True:
 
 
 print('-' * WIDTH)
-print('\t\tR A N K I N G - As 10 melhores partidas no modo {}.\n'.format(my_mode))
+print('\tR A N K I N G - As 10 melhores partidas no modo {}.\n'.format(my_mode))
 
 # Exibe apenas os 10 melhores colocados da lista
 for linha in my_list:
@@ -79,7 +84,8 @@ for linha in my_list:
 
 count = 0
 print('-' * WIDTH)
-time.sleep(TIME)
+print('Pressione "Enter" para continuar...')
+input()
 
 
 list_snakes = []
@@ -116,7 +122,7 @@ def main():
 		if player_one.get_total_errors() < my_mode:
 
 			# player_one.hit() retorna um False ou um número(True). Se False ele sair do while
-			to_return = player_one.hit()
+			to_return = player_one.guess()
 			if to_return:
 				my_camp.create_camp(to_return)
 				player_one.errors = my_camp.get_errors()
@@ -130,7 +136,9 @@ def main():
 				print('\tPontuação: [ {} ]'.format(score.get_total()), end=' ')
 				player_one.get_info()
 
-				hits_player(to_return)
+				thread.start_new_thread(hits_player, (to_return, ))
+				# hits_player(to_return)
+
 
 				count += 1
 				# Se o player alcançar 25 acertos ele é declarado vencedor
@@ -175,6 +183,7 @@ def hits_player(value):
 			if value in list_snakes[i]:
 				list_snakes_hits[i].append(value)
 				break
+	thread.exit()
 
 
 if __name__ == '__main__':

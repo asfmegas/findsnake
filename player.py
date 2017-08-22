@@ -11,10 +11,10 @@ class Player(object):
 		self.attemps = []
 		self.errors = 0
 
-	def hit(self):
+	def guess(self):
 		while True:
 			try:
-				value = input('Digite uma posição: ')
+				value = input('Digite uma posição (1-100) ou "s" para sair: ')
 				if value == 's':
 					return False
 				else:
